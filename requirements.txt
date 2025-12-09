@@ -1,1 +1,5 @@
 peewee
+fastapi
+uvicorn
+pyjwt
+bcrypt
