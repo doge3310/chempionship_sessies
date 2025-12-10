@@ -212,6 +212,10 @@ def main():
         }
     )
 
+    category, created = Categories.get_or_create(
+        name="1"
+    )
+
     docs, created = Docs.get_or_create(
         title="asdg",
         defaults={

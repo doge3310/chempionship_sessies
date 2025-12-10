@@ -28,7 +28,15 @@ async def signin(password, username):
 
 @route.get("/Documents")
 async def get_docs():
-    return Docs.select().dicts()
+    lst = Docs.select()
+    return [{
+        "id": i.id,
+        "title": i.title,
+        "date_created": i.date_created,
+        "date_updated": i.date_updated,
+        "category": i.category,
+        "has_comment": i.has_comments
+    } for i in lst]
 
 
 @route.get("/Document/{documentId}/Comments")
@@ -46,14 +54,13 @@ async def get_comments(documentId: int):
 
 @route.post("/Document/{documentId}/Comment")
 async def create_comment(documentId: str, comment: AddComment):
-    comment, _ = Comment.get_or_create(
+    comment = Comment.create(
         document_id=documentId,
-        defaults={
-            "text": comment.text,
-            "date_created": comment.date_created,
-            "date_updated": comment.date_updated,
-            "author": comment.author_id
-        })
+        text=comment.text,
+        date_created=comment.date_created,
+        date_updated=comment.date_updated,
+        author=comment.author_id
+    )
 
     return comment
 
@@ -62,4 +69,4 @@ app.include_router(route)
 
 
 if __name__ == "__main__":
-    uvicorn.run("api:app", port=7000, reload=True)
+    uvicorn.run("api:app", port=8000, reload=True)
