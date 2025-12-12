@@ -179,6 +179,56 @@ def main():
         }
     )
 
+    dep1, _ = Department.get_or_create(
+        name="Тестовый отдел1",
+        defaults={
+            "under_department": 1,
+            "director_id": 1,
+            "descriprion": "Описание тестового отдела",
+            "head": "Тестовый руководитель",
+        }
+    )
+
+    dep2, _ = Department.get_or_create(
+        name="Тестовый отдел2",
+        defaults={
+            "under_department": 1,
+            "director_id": 1,
+            "descriprion": "Описание тестового отдела",
+            "head": "Тестовый руководитель",
+        }
+    )
+
+    dep3, _ = Department.get_or_create(
+        name="Тестовый отдеk3",
+        defaults={
+            "under_department": 2,
+            "director_id": 1,
+            "descriprion": "Описание тестового отдела",
+            "head": "Тестовый руководитель",
+        }
+    )
+
+    dep4, _ = Department.get_or_create(
+        name="Тестовый отдел4",
+        defaults={
+            "under_department": 4,
+            "director_id": 1,
+            "descriprion": "Описание тестового отдела",
+            "head": "Тестовый руководитель",
+        }
+    )
+
+    dep5, _ = Department.get_or_create(
+        name="Тестовый отдел5",
+        defaults={
+            "under_department": 4,
+            "director_id": 1,
+            "descriprion": "Описание тестового отдела",
+            "head": "Тестовый руководитель",
+        }
+    )
+
     user, created = User.get_or_create(
         first_name="Иван",
         defaults={
@@ -188,6 +238,26 @@ def main():
             "birthday": "1990-01-01",
             "job_title": 1,
             "department": 1,
+            "work_phone": "+79990000000",
+            "email": "ivanov@example.com",
+            "corp_email": "ivanov@company.com",
+            "cabinet": "101",
+            "about": "Тестовый пользователь",
+            "supervisor": 1,
+            "helper": 1,
+            "employment": 1
+        }
+    )
+
+    user, created = User.get_or_create(
+        first_name="АЛЕГ",
+        defaults={
+            "mid_name": "Иванович",
+            "last_name": "Иванов",
+            "pers_number": "12345",
+            "birthday": "1991-01-01",
+            "job_title": 1,
+            "department": 2,
             "work_phone": "+79990000000",
             "email": "ivanov@example.com",
             "corp_email": "ivanov@company.com",
