@@ -306,6 +306,51 @@ def main():
         }
     )
 
+    absence, _ = AbsenceCalend.get_or_create(
+        name="1",
+        defaults={
+            "username": 2,
+            "date_from": "11.11.2007",
+            "date_to": "01.01.2004"
+        }
+    )
+
+    study, _ = StudyCalend.get_or_create(
+        name="2",
+        defaults={
+            "username": 2,
+            "date_from": "11.11.2007",
+            "date_to": "01.01.2004"
+        }
+    )
+
+    study2, _ = StudyCalend.get_or_create(
+        name="6",
+        defaults={
+            "username": 2,
+            "date_from": "11.11.2006",
+            "date_to": "01.01.2004"
+        }
+    )
+
+    study3, _ = StudyCalend.get_or_create(
+        name="5",
+        defaults={
+            "username": 2,
+            "date_from": "11.11.2005",
+            "date_to": "01.01.2004"
+        }
+    )
+
+    vocation, _ = VocationCalend.get_or_create(
+        name="1",
+        defaults={
+            "username": 2,
+            "date_from": "11.11.2007",
+            "date_to": "01.01.2004"
+        }
+    )
+
 
 def sql_import():
     with open("./WorkingCalendar.mysql.sql", "r", encoding="utf-8") as file:
