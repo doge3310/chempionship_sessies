@@ -89,45 +89,103 @@ class UserChange(tk.Frame):
         absence = list(AbsenceCalend.select().where(AbsenceCalend.username == user[0]))
         study = list(StudyCalend.select().where(StudyCalend.username == user[0]))
         vocation = list(VocationCalend.select().where(VocationCalend.username == user[0]))
-        x1 = 0.5
+
+        self.cals = ["absence", "study", "vocation"]
+        x1 = 1
         hy = 70
 
         self.calend_fr = tk.Frame(master, background="grey")
         self.change_fr = tk.Frame(master, background="grey")
 
+        self.absence_text = tk.Label(master, text="absence callendar")
+        self.study_text = tk.Label(master, text="study callendar")
+        self.vocation_text = tk.Label(master, text="vocation calend")
+
+        self.calend_text = tk.Text(master)
+        self.add_calend = tk.Button(master, text="ADD", command=self.add_cal)
+        self.del_cal = tk.Button(master, text="DELETE", command=self.delete_cal)
+
+        self.absence_text.place(x=620, y=(x1 - 1) * hy)
+
         for _, item in enumerate(absence):
             self.it_absence = tk.Button(master,
                                         text=f"{item.name}, {item.date_from}, {item.date_to}",
-                                        command=lambda x=item: self.absence_calend(x))
+                                        command=lambda x=item: self.info(x, 0))
             self.it_absence.place(x=620, y=x1 * hy, width=570, height=50)
             x1 += 1
+
+        x1 += 1
+        self.study_text.place(x=620, y=(x1 - 1) * hy)
 
         for _, item in enumerate(study):
             self.it_study = tk.Button(master,
                                       text=f"{item.name}, {item.date_from}, {item.date_to}",
-                                      command=lambda x=item: self.study_calend(x))
+                                      command=lambda x=item: self.info(x, 1))
             self.it_study.place(x=620, y=x1 * hy, width=570, height=50)
             x1 += 1
+
+        x1 += 1
+        self.vocation_text.place(x=620, y=(x1 - 1) * hy)
 
         for _, item in enumerate(vocation):
             self.it_vocation = tk.Button(master,
                                          text=f"{item.name}, {item.date_from}, {item.date_to}",
-                                         command=lambda x=item: self.vocation_calend(x))
+                                         command=lambda x=item: self.info(x, 2))
             self.it_vocation.place(x=620, y=x1 * hy, width=570, height=50)
             x1 += 1
 
         self.calend_fr.place(x=610, y=10, width=590, height=780)
         self.change_fr.place(x=10, y=10, width=590, height=780)
+        self.calend_text.place(x=15, y=15, width=580, height=700)
+        self.add_calend.place(x=15, y=740, width=100, height=30)
+        self.del_cal.place(x=130, y=740, width=100, height=30)
         master.geometry("1210x800")
 
-    def absence_calend(self, cal):
-        pass
+    def info(self, cal, cal_num):
+        self.calend_text.delete(1.0, tk.END)
+        self.calend_text.insert(1.0, f"{cal.id}\n{cal.name}\n{cal.username}\n{cal.date_from}\n{cal.date_to}\n")
+        self.calend_text.insert(tk.END, f"{self.cals[cal_num]}")
 
-    def study_calend(self, cal):
-        pass
+    def add_cal(self):
+        text = self.calend_text.get(1.0, tk.END)
+        fields = [i for i in text.split("\n") if i]
 
-    def vocation_calend(self, cal):
-        pass
+        if fields[-1] == self.cals[0]:
+            AbsenceCalend.get_or_create(name=fields[1],
+                                        defaults={
+                                            "username": fields[2],
+                                            "date_from": fields[3],
+                                            "date_to": fields[4]
+                                        })
+
+        elif fields[-1] == self.cals[1]:
+            StudyCalend.get_or_create(name=fields[1],
+                                      defaults={
+                                          "username": fields[2],
+                                          "date_from": fields[3],
+                                          "date_to": fields[4]
+                                      })
+
+        elif fields[-1] == self.cals[2]:
+            VocationCalend.get_or_create(name=fields[1],
+                                         defaults={
+                                             "username": fields[2],
+                                             "date_from": fields[3],
+                                             "date_to": fields[4]
+                                         })
+
+    def delete_cal(self):
+        text = self.calend_text.get(1.0, tk.END)
+        fields = [i for i in text.split("\n") if i]
+
+        if fields[-1] == self.cals[0]:
+            AbsenceCalend.delete_by_id(fields[0])
+
+        elif fields[-1] == self.cals[1]:
+            StudyCalend.delete_by_id(fields[0])
+
+        elif fields[-1] == self.cals[2]:
+            VocationCalend.delete_by_id(fields[0])
 
 
 if __name__ == "__main__":
